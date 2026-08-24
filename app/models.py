@@ -23,14 +23,14 @@ class Customer(SQLModel, table=True):
     __tablename__ = "customers"
 
     id: UUID | None= Field(default=None, primary_key=True)
-    name: str = Field(min_length=1, unique=True, index=True)
+    name: str = Field(unique=True, index=True)
     category: CategoryEnum = Field(default=CategoryEnum.B2B)
     address: str
     opening_balance: float = Field(default=0.0, ge=0.0)
 
 
 class CustomerCreate(SQLModel):
-    name: str = Field(min_length=1, index=True)
+    name: str = Field(index=True)
     category: CategoryEnum = Field(default=CategoryEnum.B2B)
     address: str
     opening_balance: float = Field(default=0.0, ge=0.0)
@@ -47,12 +47,12 @@ class Item(SQLModel, table=True):
     __tablename__ = "items"
 
     id: UUID | None= Field(default=None, primary_key=True)
-    name: str = Field(min_length=1, index=True) # uniqueness imposed in the routes
+    name: str = Field(index=True) # uniqueness imposed in the routes
     tax: float = Field(ge=0.0, le=28.0)
 
 class ItemCreate(SQLModel):
     
-    name: str = Field(min_length=1, index=True) # uniqueness imposed in the routes
+    name: str = Field(index=True) # uniqueness imposed in the routes
     tax: float = Field(ge=0.0, le=28.0)
 
 class ItemRead(Item):

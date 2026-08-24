@@ -11,6 +11,12 @@ router = APIRouter(prefix="/customer", tags=["Customers"])
 @router.post("", response_model=CustomerRead, status_code=status.HTTP_201_CREATED)
 def create_customer(payload: CustomerCreate, db: Session = Depends(get_session)):
     customer = Customer.model_validate(payload)
+    if customer.customer_id is None:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=f"Customer id should not be empty"
+        )
+
     # # check if customer with the same name already exists
     existing_customer = db.exec(select(Customer).where(Customer.name == customer.name)).first()
     if existing_customer:
