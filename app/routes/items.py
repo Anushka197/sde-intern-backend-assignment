@@ -23,12 +23,3 @@ def create_item(payload: ItemCreate, db: Session = Depends(get_session)):
     db.refresh(Item)
     return Item
 
-# @router.get("/{id}", response_model=ItemRead)
-# def get_Item(id: int, db: Session = Depends(get_session)):
-#     Item = db.get(Item, id)
-#     if not Item:
-#         raise HTTPException(
-#             status_code=status.HTTP_404_NOT_FOUND, 
-#             detail=f"Item {id} not found"
-#         )
-#     return Item

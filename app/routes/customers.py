@@ -11,7 +11,7 @@ router = APIRouter(prefix="/customer", tags=["Customers"])
 @router.post("", response_model=CustomerRead, status_code=status.HTTP_201_CREATED)
 def create_customer(payload: CustomerCreate, db: Session = Depends(get_session)):
     customer = Customer.model_validate(payload)
-    if customer.customer_id is None:
+    if customer.id is None:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail=f"Customer id should not be empty"

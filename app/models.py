@@ -4,7 +4,7 @@ from pydantic import EmailStr, BaseModel
 from sqlalchemy import Column, ForeignKey, Integer
 from sqlmodel import Field, Relationship, SQLModel
 from typing import List, Optional
-from uuid import UUID
+from uuid import UUID, uuid4
 
 def utcnow() -> datetime:
     return datetime.now(timezone.utc).replace(tzinfo=None)
@@ -22,7 +22,7 @@ class CategoryEnum(str, Enum):
 class Customer(SQLModel, table=True):
     __tablename__ = "customers"
 
-    id: UUID | None= Field(default=None, primary_key=True)
+    id: UUID = Field(default_factory=uuid4, primary_key=True)
     name: str = Field(unique=True, index=True)
     category: CategoryEnum = Field(default=CategoryEnum.B2B)
     address: str
@@ -46,7 +46,7 @@ class CustomerRead(Customer):
 class Item(SQLModel, table=True):
     __tablename__ = "items"
 
-    id: UUID | None= Field(default=None, primary_key=True)
+    id: UUID = Field(default_factory=uuid4, primary_key=True)
     name: str = Field(index=True) # uniqueness imposed in the routes
     tax: float = Field(ge=0.0, le=28.0)
 
